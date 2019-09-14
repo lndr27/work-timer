@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lndr Simple CLR comm</title>
+    <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../node_modules/alertifyjs/build/css/alertify.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../node_modules/alertifyjs/build/css/themes/default.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../node_modules/linearicons/dist/web-font/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../node_modules/simplebar/dist/simplebar.css" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+</head>
+
+<body ng-app="App" ng-controller="MainController" ng-init="init()">
+
+    <!-- Always on top: Position Fixed-->
+    <header class="drag">
+        <span class="col-md-2 text-muted px-2">LNDR ELECTRON TEMPLATE</span>
+
+        <form class="form-inline no-drag window-buttons">
+            <button ng-click="minimizar()" type="button" class="btn-top-bar btn-minimize">&minus;</button>
+            <button ng-click="maximizar()" type="button" class="btn-top-bar btn-mazimize">
+                <span class="lnr lnr-frame-expand"
+                    ng-class="{ 'lnr-frame-expand': !isMaximizado, 'lnr-frame-contract': isMaximizado }"></span>
+            </button>
+            <button ng-click="sair()" type="button" class="btn-top-bar btn-close">
+                <span class="lnr lnr-cross"></span>
+            </button>
+        </form>
+    </header>
+
+    
+
+    <div class="content">
+
+        <div class="row" ng-repeat="time in timesheet">
+            <div class="col-5">
+                <input type="text" ng-change="updateTime(time)"  ng-model="time.hours" ng-model-options="{updateOn: 'blur'}" mask="99:99" mask-no-parse="true" class="form-control" />
+            </div>
+            <div class="col-5">
+                {{ time.date | date : 'dd/MM/yyyy HH:mm' }}
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn" ng-click="timesheet.splice(timesheet.indexOf(time), 1)">X</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="addEntry()">Adicionar Linha</button>
+
+        <div>{{ formatedTimeWorked }}</div>
+        <div>4Hrs:  {{ timeToLeave4hrs | date : 'HH:mm' }}</div>
+        <div>6Hrs:  {{ timeToLeave6hrs | date : 'HH:mm' }}</div>
+        <div>8Hrs:  {{ timeToLeave8hrs | date : 'HH:mm' }}</div>
+        <div>10Hrs: {{ timeToLeave10hrs | date : 'HH:mm' }}</div>
+
+    </div>
+
+    <footer></footer>
+
+    <script>
+        window.$ = window.jQuery = require('jquery');
+        window.alertify = require('alertifyjs');
+        require('angular');
+    </script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../node_modules/simplebar/dist/simplebar.js"></script>
+    <script>
+        require('../angular-app/libs/jquery.mask.min.js');
+        require('../angular-app/extra.js');
+        require('../angular-app/app.controller.js');
+        require('../angular-app/app.service.js');
+        require('../angular-app/mask.directive.js');
+    </script>
+</body>
+
+</html>

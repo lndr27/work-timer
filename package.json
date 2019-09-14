@@ -1,0 +1,41 @@
+{
+    "name": "lndr-simple-clr",
+    "version": "1.0.0",
+    "description": "Simple Electron CLR",
+    "main": "src/main.js",
+    "scripts": {
+        "start": "electron .",
+        "dist": "build"
+    },
+    "build": {
+        "appId": "SimpleClr",
+        "win": {
+            "target": "portable"
+        }
+    },
+    "repository": "https://github.com/lndr27/clr_electron_edge",
+    "keywords": [
+        "Electron",
+        "Simple",
+        "CLR",
+        "Electron-edge-js",
+        "DLL",
+        "ExtraResources"
+    ],
+    "author": "Lndr27",
+    "license": "CC0-1.0",
+    "devDependencies": {
+        "electron": "^1.8.4",
+        "electron-builder": "^20.38.5"
+    },
+    "dependencies": {
+        "alertifyjs": "^1.11.1",
+        "angular": "^1.6.10",
+        "bootstrap": "^4.1.0",
+        "jquery": "^3.3.1",
+        "linearicons": "^1.0.1",
+        "lodash": "^4.17.15",
+        "popper.js": "^1.14.3",
+        "simplebar": "^2.6.1"
+    }
+}
