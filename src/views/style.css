@@ -17,6 +17,7 @@ header{
 
 .content {
     height: 100%;
+    overflow: hidden;
     padding:25px 0 16px 0; /* Header height and footer height */
     margin:0 auto 0 auto; /* Center content */
     box-sizing:border-box;

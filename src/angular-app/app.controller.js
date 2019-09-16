@@ -55,6 +55,8 @@ app.controller("MainController", function ($scope, $interval, AppService) {
     };
 
     $scope.addEntry = function () {
+        if ($scope.timesheet.length >= 6) {return;}
+
         var date = new Date();
         $scope.timesheet.push({ 
             date: date,
@@ -114,10 +116,13 @@ app.controller("MainController", function ($scope, $interval, AppService) {
             $scope.timeToLeave10hrs = 'errou';
         }
 
-
         var minutes = minutesWorked % 60;
         var hours = Math.floor(minutesWorked / 60);
         $scope.formatedTimeWorked = `${_.padStart(hours, 2, '0')}:${_.padStart(minutes, 2, '0')}`;
+        
+        minutes = mintuesBreak % 60;
+        hours = Math.floor(mintuesBreak / 60);
+        $scope.formatedTimeBreak = `${_.padStart(hours, 2, '0')}:${_.padStart(minutes, 2, '0')}`;
     };
 
     $scope.startStopTimer = () => {

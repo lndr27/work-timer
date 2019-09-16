@@ -8,10 +8,10 @@ let menuPrincipal;
 app.on('ready', () => {
 
     mainWindow = new BrowserWindow({ 
-        width: 950, 
-        height: 600,
-        minWidth: 950,
-        minHeight: 600,
+        width: 600, 
+        height: 150,
+        minWidth: 600,
+        minHeight: 150,
         frame: false
     })
 

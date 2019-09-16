@@ -30,32 +30,45 @@
         </form>
     </header>
 
-    
+
 
     <div class="content">
 
-        <div class="row" ng-repeat="time in timesheet">
-            <div class="col-5">
-                <input type="text" ng-change="updateTime(time)"  ng-model="time.hours" ng-model-options="{updateOn: 'blur'}" mask="99:99" mask-no-parse="true" class="form-control" />
-            </div>
-            <div class="col-5">
-                {{ time.date | date : 'dd/MM/yyyy HH:mm' }}
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn" ng-click="timesheet.splice(timesheet.indexOf(time), 1)">X</button>
+        <div class="row">
+            <div class="col-6">Horas Trabalhadas: {{ formatedTimeWorked }}</div>
+            <div class="col-6">Intervalo: {{ formatedTimeBreak }}</div>
+        </div>
+
+        <div class="row px-3">
+            <div class="col-2 px-1" ng-repeat="time in timesheet">
+                <label>{{ $index % 2 ? 'Saida' : 'Entrada' }}</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" ng-change="updateTime(time)" ng-model="time.hours"
+                        ng-model-options="{updateOn: 'blur'}" mask="99:99" mask-no-parse="true"
+                        class="form-control form-control-sm" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger"
+                            ng-click="timesheet.splice(timesheet.indexOf(time), 1)">X</button>
+                    </div>
+                </div>
             </div>
         </div>
         <button type="button" class="btn btn-primary" ng-click="addEntry()">Adicionar Linha</button>
 
-        <div>{{ formatedTimeWorked }}</div>
-        <div>4Hrs:  {{ timeToLeave4hrs | date : 'HH:mm' }}</div>
-        <div>6Hrs:  {{ timeToLeave6hrs | date : 'HH:mm' }}</div>
-        <div>8Hrs:  {{ timeToLeave8hrs | date : 'HH:mm' }}</div>
-        <div>10Hrs: {{ timeToLeave10hrs | date : 'HH:mm' }}</div>
+
+
 
     </div>
 
-    <footer></footer>
+    <footer>
+        <div class="row">
+            <div class="col-2">Saida</div>
+            <div class="col-2">4Hrs: {{ timeToLeave4hrs | date : 'HH:mm' }}</div>
+            <div class="col-2">6Hrs: {{ timeToLeave6hrs | date : 'HH:mm' }}</div>
+            <div class="col-2">8Hrs: {{ timeToLeave8hrs | date : 'HH:mm' }}</div>
+            <div class="col-2">10Hrs: {{ timeToLeave10hrs | date : 'HH:mm' }}</div>
+        </div>
+    </footer>
 
     <script>
         window.$ = window.jQuery = require('jquery');
