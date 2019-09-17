@@ -10,7 +10,8 @@
     "build": {
         "appId": "SimpleClr",
         "win": {
-            "target": "portable"
+            "target": "portable",
+            "icon": "./src/clock.ico"
         }
     },
     "repository": "https://github.com/lndr27/clr_electron_edge",
@@ -29,6 +30,7 @@
         "electron-builder": "^20.38.5"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.10.2",
         "alertifyjs": "^1.11.1",
         "angular": "^1.6.10",
         "bootstrap": "^4.1.0",

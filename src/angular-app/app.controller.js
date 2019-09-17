@@ -90,7 +90,7 @@ app.controller("MainController", function ($scope, $interval, AppService) {
 
         $scope.timeToLeave4hrs = new Date();
         $scope.timeToLeave4hrs.setMinutes($scope.timeToLeave4hrs.getMinutes() + (240 - minutesWorked));
-        if (minutesWorked > 240) {
+        if (minutesWorked >= 240) {
             $scope.timeToLeave4hrs = 'errou';
         }
         
@@ -98,7 +98,7 @@ app.controller("MainController", function ($scope, $interval, AppService) {
         timeLeftBreak = mintuesBreak - 15;
         timeLeftBreak = timeLeftBreak < 0 ? 0 : 15;
         $scope.timeToLeave6hrs.setMinutes($scope.timeToLeave6hrs.getMinutes() + (375 - minutesWorked - timeLeftBreak));
-        if ((375 - minutesWorked - timeLeftBreak) < 0) {
+        if ((375 - minutesWorked - timeLeftBreak) <= 0) {
             $scope.timeToLeave6hrs = 'errou';
         }
 
@@ -106,13 +106,13 @@ app.controller("MainController", function ($scope, $interval, AppService) {
         timeLeftBreak = mintuesBreak - 60;
         timeLeftBreak = timeLeftBreak < 0 ? 0 : 60;
         $scope.timeToLeave8hrs.setMinutes($scope.timeToLeave8hrs.getMinutes() + (540 - minutesWorked - timeLeftBreak));
-        if ((540 - minutesWorked - timeLeftBreak) < 0) {
+        if ((540 - minutesWorked - timeLeftBreak) <= 0) {
             $scope.timeToLeave8hrs = 'errou';
         }
         
         $scope.timeToLeave10hrs = new Date();
         $scope.timeToLeave10hrs.setMinutes($scope.timeToLeave10hrs.getMinutes() + (660 - minutesWorked - timeLeftBreak));
-        if ((660 - minutesWorked - timeLeftBreak) < 0) {
+        if ((660 - minutesWorked - timeLeftBreak) <= 0) {
             $scope.timeToLeave10hrs = 'errou';
         }
 
@@ -150,6 +150,24 @@ app.controller("MainController", function ($scope, $interval, AppService) {
             minutes += milisToMinutes(timesheet[4].date.getTime() - timesheet[3].date.getTime());
         }
         return minutes;
+    };
+
+    $scope.alwaysOnTop = function () {
+        ipcRenderer.send('alwaysOnTop');
+    };
+
+    $scope.showWindow = function () {
+        ipcRenderer.send('set-opacity', 1);
+    };
+
+    $scope.hideWindow = function () {
+        ipcRenderer.send('set-opacity', 0.65);
+    };
+
+    var opacity = 1;
+    $scope.setOpacity = function () {
+        opacity = opacity === 1 ? 0.65 : 1;
+        ipcRenderer.send('set-opacity', opacity);
     };
 
     /**

@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
+const electron = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = electron
 const path = require('path')
 const url = require('url')
 
@@ -7,12 +8,19 @@ let menuPrincipal;
 
 app.on('ready', () => {
 
+    let display = electron.screen.getPrimaryDisplay();
+    let width = display.bounds.width;
+
     mainWindow = new BrowserWindow({ 
         width: 600, 
         height: 150,
         minWidth: 600,
         minHeight: 150,
-        frame: false
+        x: width - 600,
+        y: display.bounds.height - 200,
+        frame: false,
+        opacity: 0.65,
+        alwaysOnTop: true
     })
 
     mainWindow.loadURL(url.format({
@@ -21,21 +29,9 @@ app.on('ready', () => {
         slashes: true
     }));
 
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     mainWindow.on('closed', () => mainWindow = null);
-
-    menuPrincipal = Menu.buildFromTemplate([{
-        label: "Arquivo",
-        submenu: [            
-            { label: "DevTools", click: mainWindow.webContents.openDevTools },
-            { label: 'Adicionar Pacote', click: () => {} },
-            { type: "separator" },
-            { label: "Sair", click: () => app.exit }
-        ]
-    }]);
-
-    mainWindow.setMenu(menuPrincipal);
 
     registrarRendererListeners();
 
@@ -54,6 +50,13 @@ app.on('activate', () => {
 });
 
 const registrarRendererListeners = () => {
-    ipcMain.on('toggle-item-menu', (evt, nomeMenu, habilitar) => toggleItemMenu(nomeMenu, habilitar, menuPrincipal));
     ipcMain.on('sair', app.quit);
+    ipcMain.on('set-opacity', (evt, opacity) => {
+        mainWindow.setOpacity(+opacity);
+    });
+
+    ipcMain.on('alwaysOnTop', () => {
+        mainWindow.setAlwaysOnTop(!mainWindow.isAlwaysOnTop());
+    });
+
 };

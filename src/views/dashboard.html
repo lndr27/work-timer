@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Lndr Simple CLR comm</title>
+    <title>Hora de Ir</title>
+    <link rel="stylesheet" type="text/css" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../../node_modules/alertifyjs/build/css/alertify.min.css" />
     <link rel="stylesheet" type="text/css" href="../../node_modules/alertifyjs/build/css/themes/default.min.css" />
@@ -16,14 +17,16 @@
 
     <!-- Always on top: Position Fixed-->
     <header class="drag">
-        <span class="col-md-2 text-muted px-2">LNDR ELECTRON TEMPLATE</span>
+        <span class="col-md-2 text-muted px-2"><i class="far fa-clock mr-2"></i>Hora de Ir</span>
 
         <form class="form-inline no-drag window-buttons">
+            <button ng-click="setOpacity()" type="button" class="btn-top-bar ">T</button>
+            <button ng-click="alwaysOnTop()" type="button" class="btn-top-bar "><i class="fa fa-thumbtack"></i></button>
             <button ng-click="minimizar()" type="button" class="btn-top-bar btn-minimize">&minus;</button>
-            <button ng-click="maximizar()" type="button" class="btn-top-bar btn-mazimize">
+            <!-- <button ng-click="maximizar()" type="button" class="btn-top-bar btn-mazimize">
                 <span class="lnr lnr-frame-expand"
                     ng-class="{ 'lnr-frame-expand': !isMaximizado, 'lnr-frame-contract': isMaximizado }"></span>
-            </button>
+            </button> -->
             <button ng-click="sair()" type="button" class="btn-top-bar btn-close">
                 <span class="lnr lnr-cross"></span>
             </button>
@@ -32,16 +35,19 @@
 
 
 
-    <div class="content">
+    <div class="content" ng-mouseenter="showWindow()" ng-mouseleave="hideWindow()">
 
         <div class="row">
-            <div class="col-6">Horas Trabalhadas: {{ formatedTimeWorked }}</div>
-            <div class="col-6">Intervalo: {{ formatedTimeBreak }}</div>
+            <div class="col-2"><button type="button" class="btn btn-info btn-sm mx-1" ng-click="addEntry()"><i class="fa fa-plus"></i></button></div>
+            <div class="col-5 lh-30">Horas Trabalhadas: {{ formatedTimeWorked }}</div>
+            <div class="col-5 lh-30">Intervalo: {{ formatedTimeBreak }}</div>
         </div>
 
+        <hr class="my-1"/>
+
         <div class="row px-3">
-            <div class="col-2 px-1" ng-repeat="time in timesheet">
-                <label>{{ $index % 2 ? 'Saida' : 'Entrada' }}</label>
+            <div class="col px-1" ng-repeat="time in timesheet">
+                <label class="font-weight-bold">{{ $index % 2 ? 'Saida' : 'Entrada' }}</label>
                 <div class="input-group input-group-sm">
                     <input type="text" ng-change="updateTime(time)" ng-model="time.hours"
                         ng-model-options="{updateOn: 'blur'}" mask="99:99" mask-no-parse="true"
@@ -53,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" ng-click="addEntry()">Adicionar Linha</button>
+        
 
 
 
@@ -61,12 +67,12 @@
     </div>
 
     <footer>
-        <div class="row">
+        <div class="row font-weight-bold">
             <div class="col-2">Saida</div>
-            <div class="col-2">4Hrs: {{ timeToLeave4hrs | date : 'HH:mm' }}</div>
-            <div class="col-2">6Hrs: {{ timeToLeave6hrs | date : 'HH:mm' }}</div>
-            <div class="col-2">8Hrs: {{ timeToLeave8hrs | date : 'HH:mm' }}</div>
-            <div class="col-2">10Hrs: {{ timeToLeave10hrs | date : 'HH:mm' }}</div>
+            <div class="col-2 px-1 border-left" ng-class="{ 'color-red': timeToLeave4hrs  === 'errou' }">4Hrs: {{ timeToLeave4hrs | date : 'HH:mm' }}</div>
+            <div class="col-2 px-1 border-left" ng-class="{ 'color-red': timeToLeave6hrs  === 'errou' }">6Hrs: {{ timeToLeave6hrs | date : 'HH:mm' }}</div>
+            <div class="col-2 px-1 border-left" ng-class="{ 'color-red': timeToLeave8hrs  === 'errou' }">8Hrs: {{ timeToLeave8hrs | date : 'HH:mm' }}</div>
+            <div class="col-2 px-1 border-left" ng-class="{ 'color-red': timeToLeave10hrs === 'errou' }">10Hrs: {{ timeToLeave10hrs | date : 'HH:mm' }}</div>
         </div>
     </footer>
 
