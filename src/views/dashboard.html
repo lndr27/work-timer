@@ -13,15 +13,14 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />
 </head>
 
-<body ng-app="App" ng-controller="MainController" ng-init="init()">
-
+<body ng-app="App" ng-controller="MainController" ng-init="init()" ng-mouseenter="showWindow()" ng-mouseleave="hideWindow()">
+thumbtack-active
     <!-- Always on top: Position Fixed-->
     <header class="drag">
         <span class="col-md-2 text-muted px-2"><i class="far fa-clock mr-2"></i>Hora de Ir</span>
 
         <form class="form-inline no-drag window-buttons">
-            <button ng-click="setOpacity()" type="button" class="btn-top-bar ">T</button>
-            <button ng-click="alwaysOnTop()" type="button" class="btn-top-bar "><i class="fa fa-thumbtack"></i></button>
+            <button ng-click="alwaysOnTop()" type="button" class="btn-top-bar btn-minimize"><i class="fa fa-thumbtack" ng-class="{ 'thumbtack-active': isAlwaysOnTop }"></i></button>
             <button ng-click="minimizar()" type="button" class="btn-top-bar btn-minimize">&minus;</button>
             <!-- <button ng-click="maximizar()" type="button" class="btn-top-bar btn-mazimize">
                 <span class="lnr lnr-frame-expand"
@@ -35,7 +34,7 @@
 
 
 
-    <div class="content" ng-mouseenter="showWindow()" ng-mouseleave="hideWindow()">
+    <div class="content">
 
         <div class="row">
             <div class="col-2"><button type="button" class="btn btn-info btn-sm mx-1" ng-click="addEntry()"><i class="fa fa-plus"></i></button></div>

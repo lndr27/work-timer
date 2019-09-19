@@ -1,9 +1,13 @@
 html, body {
     height:100%;
+    overflow: hidden;
     margin:0;
     padding:0;
     font-size: .9rem;
     font-family: Arial, Helvetica, sans-serif;
+}
+*:not(a):not(input) {
+    user-select: none;
 }
 
 header{
@@ -18,7 +22,7 @@ header{
 .content {
     height: 100%;
     overflow: hidden;
-    padding:30px 0 16px 0; /* Header height and footer height */
+    padding:10px 0 16px 0; /* Header height and footer height */
     margin:0 auto 0 auto; /* Center content */
     box-sizing:border-box;
 }
@@ -128,4 +132,12 @@ footer {
 
 .lh-30 {
     line-height: 30px;
+}
+
+.thumbtack-active {
+    color: rgb(224, 71, 255);
+}
+.fa-thumbtack {
+    font-size: 14px;
+    line-height: 16px;
 }
