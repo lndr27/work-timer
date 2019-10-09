@@ -1,3 +1,4 @@
+const fs = require('fs');
 const electron = require('electron');
 const { app, BrowserWindow, ipcMain, Menu } = electron
 const path = require('path')
@@ -59,4 +60,30 @@ const registrarRendererListeners = () => {
         mainWindow.setAlwaysOnTop(!mainWindow.isAlwaysOnTop());
     });
 
+    let writing = false;
+    ipcMain.on('save-to-file', function (evt, timesheet) {
+
+        if (writing) { return; }
+        writing = true;
+
+        var path = process.env.LOCALAPPDATA + '\\work-timer';
+        var fileName = 'backup.json';
+
+        if (!fs.existsSync(path)){
+            fs.mkdirSync(path);
+        }
+        fs.writeFileSync(`${path}\\${fileName}`, JSON.stringify(timesheet));
+        writing = false;
+    });
+
+    ipcMain.on('get-backup', (event) => {
+        fs.readFile(process.env.LOCALAPPDATA + '\\work-timer\\backup.json', 'utf-8', (err, data) => {
+            if (err) { return; }
+            event.sender.send('get-backup-response', data);
+        });
+    });
+
 };
+
+
+

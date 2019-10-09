@@ -1,50 +1,6 @@
 
 const _ = require('lodash');
 
-alertify.defaults.transition = "zoom";
-
-alertify.loadingDialog || alertify.dialog('loadingDialog',function(){
-    return {
-        main:function(){
-
-            let content = '';
-            htmlLoading = '<span class="lnr lnr-sync rotate"></span>&nbsp;';
-
-            if (arguments.length > 1) {
-                arguments[0] && this.setHeader(arguments[0]);
-                content = arguments[1];
-                arguments[2] && this.set(arguments[2]);
-            }
-            else {
-                this.setHeader('Processando');
-                content = arguments[0];
-            }
-
-            let html = `<div class="row">
-                        <div class="col-2">
-                            <span class="lnr lnr-sync rotating" style="font-size: 40px;"></span>
-                        </div>
-                        <div class="col-10 align-middle" style="line-height: 36px;">${content}</div>
-                        </div>`;
-            this.setContent(html);
-        },
-        setup:function(){
-            return {
-                options:{
-                    maximizable:false,
-                    resizable:false,
-                    closable: false,
-                    movable: false
-                }
-            };
-        },
-    };
-});
-
-
-
-
-
 /* PROMISE FINALLY POLYFILL */
 (function() {
 	// Get a handle on the global object
@@ -67,8 +23,7 @@ alertify.loadingDialog || alertify.dialog('loadingDialog',function(){
 					throw reason;
 				});
 			});
-    };
-    
+    };   
 
     local.forEachPair = (arr, iteratee) => {
         if (!_.isFunction(iteratee)) { throw `Invalid argument iteratte must be a function.`; }        

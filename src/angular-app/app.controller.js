@@ -28,6 +28,10 @@ app.controller("MainController", function ($scope, $interval, AppService) {
      */
     $scope.statusAplicacao = '';
 
+    const saveToFile  = _.throttle(function () {
+        ipcRenderer.send('save-to-file', $scope.timesheet);
+    }, 500, {trailing:true});
+
     /**
      * Funcao acionada ao carregar a janela principal
      */
@@ -36,6 +40,18 @@ app.controller("MainController", function ($scope, $interval, AppService) {
         $scope.model = {
             horarios: []
         };
+
+        ipcRenderer.send('get-backup');
+        ipcRenderer.on('get-backup-response', (evt, data) => {            
+            if (!data) {return;}
+            data =JSON.parse(data);
+            if (!_.isArray(data)) { return; }
+            _.forEach(data, (d) => {
+                d.date = new Date(d.date);
+            });
+            $scope.timesheet = data;
+            $scope.iniciar();
+        });
 
         $('body').on('keydown', evt => {
             if (evt.keyCode === 123)
@@ -53,12 +69,20 @@ app.controller("MainController", function ($scope, $interval, AppService) {
         time.date = new Date();
         time.date.setHours(hours, min, 0, 0);
         updateTimer();
+        saveToFile();
+    };
+
+    $scope.removeEntry = function (time) {
+        $scope.timesheet.splice($scope.timesheet.indexOf(time), 1);
+        saveToFile();
+        updateTimer();
     };
 
     $scope.addEntry = function () {
         if ($scope.timesheet.length >= 6) { return; }
 
         var date = new Date();
+        date.setSeconds(0, 0);
         $scope.timesheet.push({
             date: date,
             hours: `${_.padStart(date.getHours(), 2, '0')}:${_.padStart(date.getMinutes(), 2, '0')}`
@@ -66,6 +90,7 @@ app.controller("MainController", function ($scope, $interval, AppService) {
         if ($scope.timesheet.length === 1 && !$scope.isRunning) {
             $scope.iniciar();
         }
+        saveToFile();
     };
 
     $scope.iniciar = () => {
@@ -86,6 +111,9 @@ app.controller("MainController", function ($scope, $interval, AppService) {
 
         var minutesWorked = getMinutesWorked($scope.timesheet);
         var mintuesBreak = getMinutesBreak($scope.timesheet);
+
+        $scope.formatedTimeBreak = '00:00';
+        $scope.formatedTimeWorked = '00:00';
 
         var timeLeftBreak = 0;
 

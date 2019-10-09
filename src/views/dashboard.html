@@ -45,7 +45,7 @@ thumbtack-active
         <hr class="my-1"/>
 
         <div class="row px-3">
-            <div class="col px-1" ng-repeat="time in timesheet">
+            <div class="col px-1" ng-repeat="time in timesheet track by $index">
                 <label class="font-weight-bold">{{ $index % 2 ? 'Saida' : 'Entrada' }}</label>
                 <div class="input-group input-group-sm">
                     <input type="text" ng-change="updateTime(time)" ng-model="time.hours"
@@ -53,7 +53,7 @@ thumbtack-active
                         class="form-control form-control-sm" />
                     <div class="input-group-append">
                         <button type="button" class="btn btn-outline-danger"
-                            ng-click="timesheet.splice(timesheet.indexOf(time), 1)">X</button>
+                            ng-click="removeEntry(time)">X</button>
                     </div>
                 </div>
             </div>
