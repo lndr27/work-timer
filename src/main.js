@@ -35,7 +35,6 @@ app.on('ready', () => {
     mainWindow.on('closed', () => mainWindow = null);
 
     registrarRendererListeners();
-
 });
 
 app.on('window-all-closed', () => {
@@ -83,6 +82,42 @@ const registrarRendererListeners = () => {
         });
     });
 
+    let intervalId = 0;
+    ipcMain.on('activeBottomRight', (event, val) => {
+        if (val === false) {
+            clearInterval(intervalId);
+        }
+        else {
+            intervalId = setInterval(() => {
+                isMouseCloseToBottomRight(electron.screen);
+            }, 500);
+        }
+    });
+};
+
+const isMouseCloseToBottomRight = (screen) => {
+
+    let cursorPosition = screen.getCursorScreenPoint();
+    let display = screen.getDisplayNearestPoint(cursorPosition);
+    
+    let maxY = display.workArea.y + display.workArea.height;
+    let maxX = display.workArea.x + display.workArea.width;
+
+    let hitBox = {
+        x: maxX - 500,
+        y: maxY - 10
+    };
+
+    let opacity = mainWindow.getOpacity();
+    if (opacity === 0 && cursorPosition.x >= hitBox.x && cursorPosition.y >= hitBox.y) {
+        mainWindow.setOpacity(1);
+    }
+    else if (opacity === 1 && cursorPosition.x >= hitBox.x && cursorPosition.y >= hitBox.y - 200) {
+        mainWindow.setOpacity(1);
+    }
+    else {
+        mainWindow.setOpacity(0);
+    }
 };
 
 

@@ -20,6 +20,7 @@ thumbtack-active
         <span class="col-md-2 text-muted px-2"><i class="far fa-clock mr-2"></i>Hora de Ir</span>
 
         <form class="form-inline no-drag window-buttons">
+            <button ng-click="activeBottomRight()" type="button" class="btn-top-bar btn-minimize"><i class="fab fa-buromobelexperte" ng-class="{ 'thumbtack-active': isActiveBottomRighActive }" style="font-size: 15px;"></i></button>
             <button ng-click="alwaysOnTop()" type="button" class="btn-top-bar btn-minimize"><i class="fa fa-thumbtack" ng-class="{ 'thumbtack-active': isAlwaysOnTop }"></i></button>
             <button ng-click="minimizar()" type="button" class="btn-top-bar btn-minimize">&minus;</button>
             <!-- <button ng-click="maximizar()" type="button" class="btn-top-bar btn-mazimize">

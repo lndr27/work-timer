@@ -15,8 +15,6 @@ app.controller("MainController", function ($scope, $interval, AppService) {
 
     $scope.isMaximizado = false;
 
-    window.foo = $scope;
-
     $scope.diff = {};
 
     $scope.isRunning = false;
@@ -201,6 +199,11 @@ app.controller("MainController", function ($scope, $interval, AppService) {
     $scope.alwaysOnTop = function () {
         $scope.isAlwaysOnTop = !$scope.isAlwaysOnTop;
         ipcRenderer.send('alwaysOnTop');
+    };
+
+    $scope.activeBottomRight = function () {
+        $scope.isActiveBottomRighActive = !$scope.isActiveBottomRighActive;
+        ipcRenderer.send('activeBottomRight', $scope.isActiveBottomRighActive);
     };
 
     $scope.showWindow = function () {
